@@ -1,0 +1,29 @@
+:root {
+    --cc-bg: #050814;
+    --cc-card-bg: #0f172a;
+    --cc-accent: #38bdf8;
+    --cc-accent-soft: rgba(56, 189, 248, 0.15);
+    --cc-text: #e5e7eb;
+    --cc-muted: #9ca3af;
+    --cc-danger: #f97373;
+    --cc-radius: 14px;
+    --cc-font: system-ui, -apple-system, BlinkMacSystemFont, "SF Pro Text", sans-serif;
+}
+
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
+html, body {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+}
+
+body {
+    font-family: var(--cc-font);
+    background: radial-gradient(circle at top, #1e293b 0, #020617 55%, #000 100%);
+    color: var(--cc-text);
+}
