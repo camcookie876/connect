@@ -1,0 +1,579 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Camcookie Connect 26</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+  <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      font-family: system-ui, sans-serif;
+      background: #f0f6ff;
+      color: #003a88;
+      overflow: hidden;
+    }
+
+    /* BRAND BAR */
+    #brandbar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 50px;
+      background: #0054c2;
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 10;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+    }
+
+    #brand-inner {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      width: 100%;
+      max-width: 900px;
+      padding: 0 16px;
+      box-sizing: border-box;
+    }
+
+    #brand-icon {
+      width: 32px;
+      height: 32px;
+      background: white;
+      color: #0054c2;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 18px;
+    }
+
+    #brand-text {
+      display: flex;
+      flex-direction: column;
+      line-height: 1.1;
+    }
+
+    #brand-title {
+      font-size: 16px;
+      font-weight: 600;
+    }
+
+    #brand-sub {
+      font-size: 12px;
+      opacity: 0.85;
+    }
+
+    /* NOTIFICATIONS — now cheerful + noticeable */
+    #status {
+      margin-left: auto;
+      font-size: 13px;
+      padding: 6px 10px;
+      background: #ffffff33;
+      border-radius: 6px;
+      color: #e8f3ff;
+      max-width: 320px;
+      text-align: right;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      transition: background 0.2s ease, color 0.2s ease;
+    }
+
+    .status-error {
+      background: #ff4d4d;
+      color: white !important;
+    }
+
+    .status-good {
+      background: #4caf50;
+      color: white !important;
+    }
+
+    /* FULLSCREEN VIEWS */
+    .view {
+      position: fixed;
+      top: 50px;
+      left: 0;
+      width: 100vw;
+      height: calc(100vh - 50px);
+      box-sizing: border-box;
+      background: #f0f6ff;
+      display: none;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      padding: 16px;
+      animation: fadeIn 0.25s ease;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    h1 {
+      margin-bottom: 10px;
+      font-size: 28px;
+      color: #0054c2;
+    }
+
+    h3 {
+      margin-top: 20px;
+      margin-bottom: 8px;
+      font-size: 18px;
+    }
+
+    form {
+      width: 280px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-bottom: 10px;
+    }
+
+    input {
+      padding: 10px;
+      border: 2px solid #0054c2;
+      border-radius: 6px;
+      font-size: 14px;
+      color: #003a88;
+      background: white;
+      box-sizing: border-box;
+    }
+
+    button {
+      padding: 10px;
+      background: #0054c2;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 14px;
+      transition: background 0.15s ease, transform 0.05s ease;
+    }
+
+    button:hover {
+      background: #003f91;
+    }
+
+    button:active {
+      transform: scale(0.98);
+    }
+
+    .link {
+      margin-top: 10px;
+      color: #0054c2;
+      text-decoration: underline;
+      cursor: pointer;
+      font-size: 14px;
+    }
+
+    .info-line {
+      font-size: 14px;
+      margin-bottom: 4px;
+      text-align: center;
+    }
+
+    .small-note {
+      font-size: 13px;
+      color: #335c9c;
+      max-width: 320px;
+      text-align: center;
+      margin-top: 6px;
+    }
+
+  </style>
+</head>
+<body>
+
+  <!-- BRAND BAR -->
+  <div id="brandbar">
+    <div id="brand-inner">
+      <div id="brand-icon">C</div>
+      <div id="brand-text">
+        <div id="brand-title">Camcookie Connect 26</div>
+        <div id="brand-sub">By Camcookie</div>
+      </div>
+      <div id="status"></div>
+    </div>
+  </div>
+
+  <!-- LOGIN PAGE -->
+  <div class="view" id="view-login">
+    <h1>Welcome Back!</h1>
+    <form id="login-form">
+      <input id="login-email" type="email" placeholder="Email" required>
+      <input id="login-password" type="password" placeholder="Password" required>
+      <button type="submit">Login</button>
+    </form>
+    <div class="link" id="link-to-signup">Create account</div>
+  </div>
+
+  <!-- SIGNUP PAGE -->
+  <div class="view" id="view-signup">
+    <h1>Create Your Account</h1>
+    <form id="signup-form">
+      <input id="signup-email" type="email" placeholder="Email" required>
+      <input id="signup-username" type="text" placeholder="Username (unique)" required>
+      <input id="signup-password" type="password" placeholder="Password" required>
+      <button type="submit">Create account</button>
+    </form>
+    <div class="link" id="link-to-login">Already have an account</div>
+    <div class="small-note">You must verify your email before continuing.</div>
+  </div>
+
+  <!-- VERIFY EMAIL PAGE -->
+  <div class="view" id="view-verify">
+    <h1>Verify Your Email</h1>
+    <p class="info-line">We sent a verification link to your email.</p>
+    <button id="btn-resend">Resend verification email</button>
+    <button id="verify-refresh">I’ve verified, refresh</button>
+    <button id="verify-back-login">Back to login</button>
+  </div>
+
+  <!-- CONTINUE PAGE -->
+  <div class="view" id="view-continue">
+    <h1>You're signed in!</h1>
+    <p class="info-line" id="continue-email"></p>
+    <button id="continue-to-app">Continue to App</button>
+    <button id="continue-to-dashboard">Go to Dashboard</button>
+    <button id="continue-logout">Log out</button>
+  </div>
+
+  <!-- DASHBOARD PAGE -->
+  <div class="view" id="view-dashboard">
+    <h1>Your Dashboard</h1>
+
+    <p class="info-line" id="dash-email"></p>
+    <p class="info-line" id="dash-username-display"></p>
+
+    <h3>Edit Username</h3>
+    <input id="dash-username" type="text" placeholder="New username">
+    <button id="btn-save-username">Save Username</button>
+
+    <h3>Password</h3>
+    <button id="btn-change-password">Send password reset email</button>
+
+    <h3>Session</h3>
+    <button id="btn-return-app">Continue to App</button>
+    <button id="btn-logout">Log out</button>
+  </div>
+
+<script>
+/* ——————————————————————————————
+   SUPABASE CONFIG
+—————————————————————————————— */
+const supabaseClient = supabase.createClient(
+  "https://bafcfszceittoberpgdz.supabase.co",
+  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJhZmNmc3pjZWl0dG9iZXJwZ2R6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3Njg2NjcwNjYsImV4cCI6MjA4NDI0MzA2Nn0.-JLfGymc77W3pIxMimhXZ3G21ATU25yOfPPvGNirmQU"
+);
+
+const statusEl = document.getElementById("status");
+
+function setStatus(msg, type="good") {
+  statusEl.textContent = msg;
+  statusEl.className = "";
+  if (type === "error") statusEl.classList.add("status-error");
+  else statusEl.classList.add("status-good");
+}
+
+function clearStatus() {
+  statusEl.textContent = "";
+  statusEl.className = "";
+}
+
+function getRedirect() {
+  const params = new URLSearchParams(window.location.search);
+  return params.get("redirect");
+}
+
+/* ——————————————————————————————
+   VIEW HANDLING
+—————————————————————————————— */
+const views = {
+  login: document.getElementById("view-login"),
+  signup: document.getElementById("view-signup"),
+  verify: document.getElementById("view-verify"),
+  dashboard: document.getElementById("view-dashboard"),
+  continue: document.getElementById("view-continue"),
+};
+
+function showView(name) {
+  Object.values(views).forEach(v => v.style.display = "none");
+  views[name].style.display = "flex";
+}
+
+/* ——————————————————————————————
+   DASHBOARD LOADING
+—————————————————————————————— */
+const dashEmailEl = document.getElementById("dash-email");
+const dashUsernameDisplayEl = document.getElementById("dash-username-display");
+const dashUsernameInput = document.getElementById("dash-username");
+
+async function getCurrentUser() {
+  const { data } = await supabaseClient.auth.getUser();
+  return data?.user || null;
+}
+
+async function refreshDashboard() {
+  clearStatus();
+  const user = await getCurrentUser();
+  if (!user) {
+    setStatus("Session expired.", "error");
+    showView("login");
+    return;
+  }
+
+  dashEmailEl.textContent = "Email: " + user.email;
+
+  const { data: account } = await supabaseClient
+    .from("accounts")
+    .select("username")
+    .eq("id", user.id)
+    .maybeSingle();
+
+  const username = account?.username || "(not set)";
+  dashUsernameDisplayEl.textContent = "Username: @" + username;
+  dashUsernameInput.value = username;
+}
+
+/* ——————————————————————————————
+   AUTO LOGIN
+—————————————————————————————— */
+async function checkAutoLogin() {
+  clearStatus();
+  const user = await getCurrentUser();
+
+  if (!user) {
+    showView("login");
+    return;
+  }
+
+  if (!user.email_confirmed_at) {
+    showView("verify");
+    return;
+  }
+
+  const { data: account } = await supabaseClient
+    .from("accounts")
+    .select("username")
+    .eq("id", user.id)
+    .maybeSingle();
+
+  if (!account?.username) {
+    showView("dashboard");
+    await refreshDashboard();
+    return;
+  }
+
+  const r = getRedirect();
+  if (r) {
+    document.getElementById("continue-email").textContent =
+      "Signed in as: " + user.email;
+    showView("continue");
+  } else {
+    showView("dashboard");
+    await refreshDashboard();
+  }
+}
+
+/* ——————————————————————————————
+   LOGIN
+—————————————————————————————— */
+document.getElementById("login-form").addEventListener("submit", async (e) => {
+  e.preventDefault();
+  clearStatus();
+
+  const email = login-email.value.trim();
+  const password = login-password.value;
+
+  setStatus("Logging in…");
+
+  const { data, error } = await supabaseClient.auth.signInWithPassword({
+    email,
+    password,
+  });
+
+  if (error) return setStatus(error.message, "error");
+
+  if (!data.user.email_confirmed_at) {
+    showView("verify");
+    return;
+  }
+
+  await checkAutoLogin();
+});
+
+/* ——————————————————————————————
+   SIGNUP
+—————————————————————————————— */
+document.getElementById("signup-form").addEventListener("submit", async (e) => {
+  e.preventDefault();
+  clearStatus();
+
+  const email = signup-email.value.trim();
+  const username = signup-username.value.trim();
+  const password = signup-password.value;
+
+  setStatus("Checking username…");
+
+  const { data: existing } = await supabaseClient
+    .from("accounts")
+    .select("id")
+    .eq("username", username)
+    .maybeSingle();
+
+  if (existing) return setStatus("Username already taken.", "error");
+
+  setStatus("Creating account…");
+
+  const { data, error } = await supabaseClient.auth.signUp({
+    email,
+    password,
+    options: { emailRedirectTo: window.location.href },
+  });
+
+  if (error) return setStatus(error.message, "error");
+
+  if (data.user) {
+    await supabaseClient.from("accounts").insert({
+      id: data.user.id,
+      username,
+    });
+  }
+
+  showView("verify");
+  setStatus("Account created! Check your email.");
+});
+
+/* ——————————————————————————————
+   RESEND VERIFICATION
+—————————————————————————————— */
+document.getElementById("btn-resend").addEventListener("click", async () => {
+  const user = await getCurrentUser();
+  if (!user) return setStatus("Not logged in.", "error");
+
+  const { error } = await supabaseClient.auth.resend({
+    type: "signup",
+    email: user.email,
+  });
+
+  if (error) return setStatus(error.message, "error");
+
+  setStatus("Verification email sent!");
+});
+
+/* ——————————————————————————————
+   DASHBOARD ACTIONS
+—————————————————————————————— */
+document.getElementById("btn-save-username").addEventListener("click", async () => {
+  const newUsername = dashUsernameInput.value.trim();
+  if (!newUsername) return setStatus("Username cannot be empty.", "error");
+
+  const user = await getCurrentUser();
+  if (!user) return setStatus("Session expired.", "error");
+
+  const { data: existing } = await supabaseClient
+    .from("accounts")
+    .select("id")
+    .eq("username", newUsername)
+    .maybeSingle();
+
+  if (existing && existing.id !== user.id)
+    return setStatus("Username already taken.", "error");
+
+  await supabaseClient.from("accounts").upsert({
+    id: user.id,
+    username: newUsername,
+  });
+
+  setStatus("Username updated!");
+  refreshDashboard();
+});
+
+document.getElementById("btn-change-password").addEventListener("click", async () => {
+  const user = await getCurrentUser();
+  if (!user) return setStatus("Not logged in.", "error");
+
+  const { error } = await supabaseClient.auth.resetPasswordForEmail(user.email);
+
+  if (error) return setStatus(error.message, "error");
+
+  setStatus("Password reset email sent!");
+});
+
+/* ——————————————————————————————
+   SESSION BUTTONS
+—————————————————————————————— */
+document.getElementById("btn-return-app").addEventListener("click", () => {
+  const r = getRedirect();
+  if (r) window.location.href = r;
+  else setStatus("No redirect set.");
+});
+
+document.getElementById("btn-logout").addEventListener("click", async () => {
+  await supabaseClient.auth.signOut();
+  showView("login");
+  setStatus("Logged out!");
+});
+
+/* ——————————————————————————————
+   CONTINUE PAGE
+—————————————————————————————— */
+document.getElementById("continue-to-app").addEventListener("click", () => {
+  const r = getRedirect();
+  if (r) window.location.href = r;
+  else setStatus("No redirect set.");
+});
+
+document.getElementById("continue-to-dashboard").addEventListener("click", async () => {
+  showView("dashboard");
+  await refreshDashboard();
+});
+
+document.getElementById("continue-logout").addEventListener("click", async () => {
+  await supabaseClient.auth.signOut();
+  showView("login");
+  setStatus("Logged out!");
+});
+
+/* ——————————————————————————————
+   SIMPLE LINKS
+—————————————————————————————— */
+document.getElementById("link-to-signup").addEventListener("click", () => {
+  showView("signup");
+});
+
+document.getElementById("link-to-login").addEventListener("click", () => {
+  showView("login");
+});
+
+document.getElementById("verify-back-login").addEventListener("click", () => {
+  showView("login");
+});
+
+document.getElementById("verify-refresh").addEventListener("click", async () => {
+  setStatus("Checking verification…");
+  await checkAutoLogin();
+});
+
+/* ——————————————————————————————
+   INITIAL LOAD
+—————————————————————————————— */
+window.addEventListener("DOMContentLoaded", () => {
+  checkAutoLogin();
+});
+</script>
+
+</body>
+</html>
