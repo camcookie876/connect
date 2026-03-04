@@ -1,56 +1,69 @@
 # 🍪 **Camcookie Connect 26**  
 ### By Camcookie
 
-Welcome to **Camcookie Connect 26**, the cheerful, secure, and simple account system that powers every Camcookie app.  
-One account. One username. Everything connected.
+Get a account for Camcookie Chat threw Camcookie Connect 26 at:
 
-## 🎉 What Is Camcookie Connect?
+<https://camcookie876.github.io/connect/26/?redirect=https://camcookie876.github.io/chat/home/>
 
-Camcookie Connect 26 is the **central identity system** for all Camcookie apps — Pi apps, Windows apps, web apps, and more.
+## Internet
 
-It gives users:
+Camcookie Connect 26 is working on Createing a Internet system. Just plug in your pi, Connect it to the internet, connect a wifi brodcast stick, and log into your network on your device! You will get tons of things, including coustom camcookie:// websites and perental controold. You will also get accounts and tons of open source prodgects, ALL FOR FREE!
 
-- A single **@username** across all apps  
-- A unified login screen  
-- Email‑verified security  
-- A clean, cheerful dashboard  
-- Instant redirect back to your app after login  
 
----
+Here is our current status list in our code makeing:
 
-## ✨ Features
 
-### 🔐 Simple & Secure Login  
-Email + password with verification ensures accounts stay safe.
+### Summary Table and status:
 
-### 🍪 Universal Username  
-Every user gets a unique `@username` stored in the `accounts` table.
-
-### 🚀 Instant Redirect  
-Apps can send users to Connect and get them back automatically:
-
-```
-https://your-domain.com/connect/?redirect=https://your-app.com/
-```
-
-### 🎨 Cheerful UI  
-Bright colors, friendly messages, and smooth animations.
-
-### 📱 Works Everywhere  
-- GitHub Pages  
-- Raspberry Pi  
-- Windows  
-- Mobile browsers  
-- Embedded webviews  
+| System | Required | Current Version | Status |
+|-------|----------|----------------|--------|
+| Identity | Yes | Partial | ⚠️ Needs API + login |
+| Family Controls | Yes | DB only | ❌ Missing logic |
+| Permissions | Yes | DB only | ❌ Missing logic |
+| Device Identity | Yes | Yes | ✔ Basic |
+| Router | Yes | Placeholder | ❌ Missing real router |
+| Sites | Yes | No | ❌ Missing |
+| AI Server | Yes | No | ❌ Missing |
+| Update Server | Yes | No | ❌ Missing |
+| Security Updates | Yes | No | ❌ Missing |
+| Offline Mode | Yes | No | ❌ Missing |
+| Logging | Yes | Partial | ⚠️ Needs logic |
+| CamcookieNet Wi‑Fi | Yes | No | ❌ Missing |
+| First‑Run Setup | Yes | No | ❌ Missing |
+| Predownload System | Yes | No | ❌ Missing |
+| Update Checker | Yes | No | ❌ Missing |
+| Deletion System | Yes | No | ❌ Missing |
+| Open‑Source Modules | Optional | Partial | ⚠️ Needs installers |
 
 ---
 
-## 🏠 Homepage Preview
+### Open-Source Modules included:
 
-This repository includes a friendly homepage that introduces users to Camcookie Connect and encourages them to sign up.
+This list can change based on avalability.
 
-```
-Welcome to Camcookie Connect
-The unified account system for all Camcookie apps.
-One account. One username. Everything connected.
-```
+| Module Name | Category | What It Does | camcookie:// URL | Status |
+|------------|----------|--------------|------------------|--------|
+| **RetroPie** | Gaming / Emulation | Full retro gaming system (EmulationStation + RetroArch + emulator cores) | `camcookie://retropi` | **Included** |
+| **Lakka** | Gaming / Emulation | Lightweight console‑style gaming OS built on RetroArch | `camcookie://lakka` | Planned |
+| **DOSBox‑X** | Gaming / Emulation | DOS PC emulator for classic games | `camcookie://dosbox` | Planned |
+| **GIMP** | Creativity / Art | Full image editor for photos and digital art | `camcookie://gimp` | Planned |
+| **Inkscape** | Creativity / Vector Art | Vector graphics editor (SVG icons, logos, UI assets) | `camcookie://inkscape` |  Planned |
+| **Audacity** | Audio Editing | Open‑source audio editor for music and sound | `camcookie://audacity` | Planned |
+| **Scratch Desktop** | Coding / Education | Block‑based coding environment for kids | `camcookie://scratch` | Planned |
+| **Thonny** | Coding / Python | Beginner‑friendly Python IDE | `camcookie://thonny` | Planned |
+| **Godot Engine** | Game Development | 2D/3D open‑source game engine | `camcookie://godot` | Planned |
+| **Kodi** | Media Center | Home‑theater system for videos, music, and photos | `camcookie://kodi` | Planned |
+| **VLC** | Media Player | Universal video/audio player | `camcookie://vlc` | Planned |
+| **LibreOffice** | Productivity | Word processor, spreadsheets, presentations | `camcookie://office` | Planned |
+| **Pi‑Apps** | App Installer | Huge library of open‑source Pi apps | `camcookie://piapps` | Planned |
+| **HTOP** | System Tools | CPU/RAM/process monitor (read‑only mode) | `camcookie://htop` | Planned |
+| **Neofetch** | System Tools | Fun system info display | `camcookie://neofetch` | Planned |
+
+---
+
+#### Notes
+
+- Each module gets its own **camcookie:// URL**  
+- Each module can be **blocked by family controls**  
+- Each module appears in **camcookie://admin/modules**  
+- Each module has a **launcher page** and a **settings page**  
